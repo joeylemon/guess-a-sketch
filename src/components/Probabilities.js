@@ -8,11 +8,8 @@ const MAX_SIZE = 512
 const Probabilities = () => {
     const probabilities = useSelector(state => state.probabilities)
 
-    /**
-     * grid of blocks
-     */
     return (
-        <Card style={{ maxWidth: '512px' }}>
+        <Card style={{ maxWidth: '512px', height: '100%' }}>
             {probabilities.map((obj, i) => {
                 return <ProbabilityBlock number={obj.probability} label={obj.label} key={i}></ProbabilityBlock>
             })}

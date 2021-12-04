@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import simplify from 'simplify-js'
 import { detectImage } from '../services/Detect.js'
 import Card from './Card'
+import { resetCanvas, resetProbabilities } from '../redux/actions'
 import { cropAndScaleStrokes } from '../services/Utils.js'
 
 const MAX_SIZE = 512
@@ -13,6 +15,10 @@ const Canvas = styled.canvas`
 `
 
 const DrawCanvas = () => {
+    const dispatch = useDispatch()
+
+    const performReset = useSelector(state => state.resetCanvas)
+
     const canvasRef = useRef(null)
     const draggingVal = useRef(false)
     const currentStroke = useRef([])
@@ -72,6 +78,7 @@ const DrawCanvas = () => {
         ctx.strokeStyle = 'black'
 
         for (let j = 0; j < strokes.current.length; j++) {
+            console.log('draw strokes', strokes.current.length)
             const pts = strokes.current[j]
 
             ctx.beginPath()
@@ -86,6 +93,7 @@ const DrawCanvas = () => {
 
         // draw the current stroke if it exists
         if (currentStroke.current.length > 0) {
+            console.log('draw current')
             const current = currentStroke.current
 
             ctx.strokeStyle = 'black'
@@ -94,9 +102,9 @@ const DrawCanvas = () => {
             for (const pt of current.slice(1)) {
                 ctx.lineTo(pt.x, pt.y)
             }
-        }
 
-        ctx.stroke()
+            ctx.stroke()
+        }
     }
 
     /**
@@ -127,6 +135,20 @@ const DrawCanvas = () => {
     useEffect(() => {
         initializeCanvas()
     }, [])
+
+    useEffect(() => {
+        if (performReset) {
+            strokes.current = []
+            currentStroke.current = []
+
+            const ctx = canvasRef.current.getContext('2d')
+            ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+            draw(ctx)
+
+            dispatch(resetCanvas(false))
+            dispatch(resetProbabilities())
+        }
+    }, [performReset])
 
     return (
         <Card>

@@ -2,7 +2,8 @@ import { ACTIONS } from './actions'
 import { SKETCH_NAMES } from '../services/Utils'
 
 const initialState = {
-    probabilities: SKETCH_NAMES.map(n => ({ label: n, probability: 0.0 }))
+    probabilities: SKETCH_NAMES.map(n => ({ label: n, probability: 0.0 })),
+    resetCanvas: false
 }
 
 function rootReducer (state = initialState, action) {
@@ -10,6 +11,9 @@ function rootReducer (state = initialState, action) {
     switch (type) {
     case ACTIONS.SET_PROBABILITIES: {
         return { ...state, probabilities: payload }
+    }
+    case ACTIONS.RESET_CANVAS: {
+        return { ...state, resetCanvas: payload }
     }
     default: {
         return { ...state }

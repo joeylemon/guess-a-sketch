@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import DrawCanvas from './components/DrawCanvas'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Probabilities from './components/Probabilities'
+import Controls from './components/Controls'
 
 const Wrapper = styled.div`
     text-align: center;
@@ -19,12 +20,17 @@ const App = () => {
             <Content>
                 <Grid fluid>
                     <Row>
-                        <Col xs>
-                            <DrawCanvas />
+                        <Col lg>
+                            <Row>
+                                <Col lg>
+                                    <DrawCanvas />
+                                </Col>
+                                <Col lg>
+                                    <Controls />
+                                </Col>
+                            </Row>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col xs>
+                        <Col lg>
                             <Probabilities />
                         </Col>
                     </Row>
