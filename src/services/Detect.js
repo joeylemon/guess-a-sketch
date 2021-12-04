@@ -7,7 +7,7 @@ let model
 
 /**
  * Get the saved network model
- * @returns {tf.Sequential} The Tensorflow model
+ * @returns {Promise<tf.Sequential>} The Tensorflow model
  */
 export async function getModel () {
     if (!model) {
@@ -17,7 +17,6 @@ export async function getModel () {
             loss: 'categoricalCrossentropy',
             metrics: ['accuracy']
         })
-        console.log('model loaded', model)
     }
 
     return model
@@ -83,6 +82,5 @@ export async function detectImage (ctx, size) {
     }
     result = result.sort((a, b) => b.probability - a.probability)
 
-    console.log(result)
     store.dispatch(setProbabilities(result))
 }

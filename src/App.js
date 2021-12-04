@@ -21,14 +21,15 @@ const App = () => {
                 <Grid fluid>
                     <Row>
                         <Col lg>
-                            <Row>
-                                <Col lg>
-                                    <DrawCanvas />
-                                </Col>
-                                <Col lg>
-                                    <Controls />
-                                </Col>
-                            </Row>
+                            <Controls />
+                        </Col>
+                        <Col lg>
+                            <Controls />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg>
+                            <DrawCanvas />
                         </Col>
                         <Col lg>
                             <Probabilities />

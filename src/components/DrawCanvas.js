@@ -78,7 +78,6 @@ const DrawCanvas = () => {
         ctx.strokeStyle = 'black'
 
         for (let j = 0; j < strokes.current.length; j++) {
-            console.log('draw strokes', strokes.current.length)
             const pts = strokes.current[j]
 
             ctx.beginPath()
@@ -93,7 +92,6 @@ const DrawCanvas = () => {
 
         // draw the current stroke if it exists
         if (currentStroke.current.length > 0) {
-            console.log('draw current')
             const current = currentStroke.current
 
             ctx.strokeStyle = 'black'
@@ -116,7 +114,6 @@ const DrawCanvas = () => {
         ctx.lineWidth = 5
 
         const scaledStrokes = cropAndScaleStrokes(strokes.current, ctx.canvas.width)
-        console.log('scaledStrokes', scaledStrokes)
         for (let j = 0; j < scaledStrokes.length; j++) {
             const pts = scaledStrokes[j]
 

@@ -5,6 +5,14 @@ import Card from './Card'
 import { resetCanvas } from '../redux/actions'
 
 const Button = styled.button`
+    ${Card}:hover & {
+        transform: scale(1.05, 1.05);
+        cursor: pointer;
+    }
+    ${Card}:active & {
+        transform: scale(1, 1);
+        cursor: pointer;
+    }
     display: inline-block;
     font-family: 'Sora', sans-serif;
     font-size: 20px;
