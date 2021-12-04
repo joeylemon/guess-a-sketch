@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import DrawCanvas from './components/DrawCanvas'
 import { Grid, Row, Col } from 'react-flexbox-grid'

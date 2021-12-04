@@ -27,7 +27,7 @@ const DrawCanvas = () => {
     /**
      * Set up the canvas and enable event listeners
      */
-    const initializeCanvas = () => {
+    useEffect(() => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
 
@@ -66,7 +66,7 @@ const DrawCanvas = () => {
             detectImage(ctx, canvas.width)
             draw(ctx)
         })
-    }
+    }, [])
 
     /**
      * Draw the strokes on the canvas for viewing by the user
@@ -129,10 +129,9 @@ const DrawCanvas = () => {
         }
     }
 
-    useEffect(() => {
-        initializeCanvas()
-    }, [])
-
+    /**
+     * Reset the canvas if button is pressed
+     */
     useEffect(() => {
         if (performReset) {
             strokes.current = []
@@ -145,7 +144,7 @@ const DrawCanvas = () => {
             dispatch(resetCanvas(false))
             dispatch(resetProbabilities())
         }
-    }, [performReset])
+    }, [performReset, dispatch])
 
     return (
         <Card>

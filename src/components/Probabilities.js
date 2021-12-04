@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux'
 import Card from './Card'
 import ProbabilityBlock from './ProbabilityBlock'
 
-const MAX_SIZE = 512
-
 const Probabilities = () => {
     const probabilities = useSelector(state => state.probabilities)
 
