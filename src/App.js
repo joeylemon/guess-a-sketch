@@ -8,11 +8,12 @@ import Header from './components/Header'
 
 const Wrapper = styled.div`
     text-align: center;
+    padding: 0px;
 `
 
 const Content = styled.div`
     display: inline-block;
-    padding: 40px;
+    padding: 0px;
 `
 
 const App = () => {
