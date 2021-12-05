@@ -1,5 +1,7 @@
 # Guess-a-Sketch
 
+![Build](https://github.com/joeylemon/guess-a-sketch/workflows/Build/badge.svg)
+
 https://jlemon.org/projects/guess-a-sketch/
 
 A React web application where users can sketch on a canvas and have a convolutional neural network attempt to classify the drawing. Predictions are made in real-time as the user adds strokes to the canvas. The machine learning algorithm is performed client-side in the user's browser using [Tensorflow.js](https://www.tensorflow.org/js).
