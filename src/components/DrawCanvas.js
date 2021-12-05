@@ -157,7 +157,7 @@ const DrawCanvas = () => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
 
-        const size = Math.min(MAX_SIZE, document.body.scrollWidth * 0.6)
+        const size = Math.min(MAX_SIZE, document.body.scrollWidth * 0.85)
         canvas.style.width = size
         canvas.style.height = size
         canvas.width = size

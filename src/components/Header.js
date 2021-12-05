@@ -42,8 +42,8 @@ const Header = () => {
         <Container>
             <Title>Guess-a-Sketch</Title>
             <Links>
-                <Link href="#"><Icon className={'fa fa-github'}></Icon>React App</Link>
-                <Link href="#"><Icon className={'fa fa-github'}></Icon>Neural Network</Link>
+                <Link href="https://github.com/joeylemon/guess-a-sketch"><Icon className={'fa fa-github'}></Icon>React App</Link>
+                <Link href="https://github.com/joeylemon/sketch-classifier"><Icon className={'fa fa-github'}></Icon>Neural Network</Link>
             </Links>
         </Container>
     )

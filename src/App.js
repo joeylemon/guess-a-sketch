@@ -9,6 +9,7 @@ import Header from './components/Header'
 const Wrapper = styled.div`
     text-align: center;
     padding: 0px;
+    padding-top: 10px;
 `
 
 const Content = styled.div`
