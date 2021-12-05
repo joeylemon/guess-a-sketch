@@ -24,7 +24,7 @@ const Desc = styled.p`
     font-family: 'Sora', sans-serif;
     font-size: 14px;
     color: gray;
-    text-align: center;
+    text-align: justify;
     font-style: italic;
 `
 
