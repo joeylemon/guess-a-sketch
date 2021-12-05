@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import simplify from 'simplify-js'
@@ -15,6 +15,7 @@ const COLORS = ['white', 'red', 'blue', 'green', 'yellow', 'purple', 'orange', '
 
 const Canvas = styled.canvas`
     display: inline-block;
+    touch-action: none;
 `
 
 /**
@@ -45,6 +46,17 @@ const DrawCanvas = () => {
     const currentStroke = useRef([])
     const strokes = useRef([])
 
+    /**
+     * Detect the current drawing on the canvas using the neural network
+     */
+    const detectDrawing = useCallback(() => {
+        const canvas = canvasRef.current
+        const ctx = canvas.getContext('2d')
+        drawForExtraction(ctx)
+        detectImage(ctx, canvas.width)
+        draw(ctx)
+    }, [])
+
     const handleStrokeStart = e => {
         const ctx = canvasRef.current.getContext('2d')
         draggingVal.current = true
@@ -67,7 +79,7 @@ const DrawCanvas = () => {
         }
     }
 
-    const handleStrokeFinish = () => {
+    const handleStrokeFinish = useCallback(() => {
         draggingVal.current = false
 
         if (currentStroke.current.length > 1) {
@@ -76,18 +88,7 @@ const DrawCanvas = () => {
         }
 
         currentStroke.current = []
-    }
-
-    /**
-     * Detect the current drawing on the canvas using the neural network
-     */
-    const detectDrawing = () => {
-        const canvas = canvasRef.current
-        const ctx = canvas.getContext('2d')
-        drawForExtraction(ctx)
-        detectImage(ctx, canvas.width)
-        draw(ctx)
-    }
+    }, [detectDrawing])
 
     /**
      * Draw the strokes on the canvas for viewing by the user
@@ -155,7 +156,6 @@ const DrawCanvas = () => {
      */
     useEffect(() => {
         const canvas = canvasRef.current
-        const ctx = canvas.getContext('2d')
 
         const size = Math.min(MAX_SIZE, document.body.scrollWidth * 0.85)
         canvas.style.width = size
@@ -181,7 +181,7 @@ const DrawCanvas = () => {
                 detectDrawing()
             }
         })
-    }, [])
+    }, [detectDrawing, handleStrokeFinish])
 
     /**
      * Reset the canvas if button is pressed

@@ -11,7 +11,7 @@ let model
  */
 export async function getModel () {
     if (!model) {
-        model = await tf.loadLayersModel('/model/model.json')
+        model = await tf.loadLayersModel('./model/model.json')
         model.compile({
             optimizer: tf.train.adam(),
             loss: 'categoricalCrossentropy',

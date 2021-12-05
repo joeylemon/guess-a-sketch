@@ -47,7 +47,7 @@ const Controls = () => {
                 dispatch(resetCanvas(true))
             }
         })
-    }, [])
+    }, [dispatch])
 
     return (
         <Container>
