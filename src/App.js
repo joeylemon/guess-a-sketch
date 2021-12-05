@@ -4,6 +4,7 @@ import DrawCanvas from './components/DrawCanvas'
 import { Grid, Row, Col } from 'react-flexbox-grid'
 import Probabilities from './components/Probabilities'
 import Controls from './components/Controls'
+import Header from './components/Header'
 
 const Wrapper = styled.div`
     text-align: center;
@@ -21,16 +22,20 @@ const App = () => {
                 <Grid fluid>
                     <Row>
                         <Col lg>
-                            <Controls />
-                        </Col>
-                        <Col lg>
-                            <Controls />
+                            <Header />
                         </Col>
                     </Row>
                     <Row>
                         <Col lg>
                             <DrawCanvas />
                         </Col>
+                    </Row>
+                    <Row>
+                        <Col lg>
+                            <Controls />
+                        </Col>
+                    </Row>
+                    <Row>
                         <Col lg>
                             <Probabilities />
                         </Col>

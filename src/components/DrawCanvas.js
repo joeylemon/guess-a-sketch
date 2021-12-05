@@ -7,13 +7,34 @@ import Card from './Card'
 import { resetCanvas, resetProbabilities } from '../redux/actions'
 import { cropAndScaleStrokes } from '../services/Utils.js'
 
+// What is the max size (in px) that the canvas can be?
 const MAX_SIZE = 512
+
+// What colors to use on each separate stroke when exporting to network?
 const COLORS = ['white', 'red', 'blue', 'green', 'yellow', 'purple', 'orange', 'gray', 'cyan', 'pink']
 
 const Canvas = styled.canvas`
     display: inline-block;
 `
 
+/**
+ * Get the location of a mouse or touch event relative to parent element
+ * @param {MouseEvent | TouchEvent} e The event reference
+ * @returns {Object} The relative position
+ */
+const getEventLocation = e => {
+    const rect = e.target.getBoundingClientRect()
+    if (e.targetTouches !== undefined) {
+        return { x: e.targetTouches[0].pageX - rect.left, y: e.targetTouches[0].pageY - rect.top }
+    }
+
+    return { x: e.pageX - rect.left, y: e.pageY - rect.top }
+}
+
+/**
+ * This component represents a canvas that can register and draw strokes, and then predict the
+ * sketch after every stroke
+ */
 const DrawCanvas = () => {
     const dispatch = useDispatch()
 
@@ -24,49 +45,49 @@ const DrawCanvas = () => {
     const currentStroke = useRef([])
     const strokes = useRef([])
 
+    const handleStrokeStart = e => {
+        const ctx = canvasRef.current.getContext('2d')
+        draggingVal.current = true
+
+        const pt = getEventLocation(e)
+        ctx.beginPath()
+        ctx.moveTo(pt.x, pt.y)
+        currentStroke.current.push(pt)
+    }
+
+    const handleStrokeMove = e => {
+        if (draggingVal.current) {
+            const ctx = canvasRef.current.getContext('2d')
+            const pt = getEventLocation(e)
+            currentStroke.current.push(pt)
+
+            ctx.lineWidth = 5
+            ctx.lineTo(pt.x, pt.y)
+            ctx.stroke()
+        }
+    }
+
+    const handleStrokeFinish = () => {
+        draggingVal.current = false
+
+        if (currentStroke.current.length > 1) {
+            strokes.current.push(simplify(currentStroke.current, 2))
+            detectDrawing()
+        }
+
+        currentStroke.current = []
+    }
+
     /**
-     * Set up the canvas and enable event listeners
+     * Detect the current drawing on the canvas using the neural network
      */
-    useEffect(() => {
+    const detectDrawing = () => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
-
-        const size = Math.min(MAX_SIZE, document.body.scrollWidth * 0.6)
-        canvas.style.width = size
-        canvas.style.height = size
-        canvas.width = size
-        canvas.height = size
-
-        canvas.addEventListener('mousedown', e => {
-            draggingVal.current = true
-
-            const pt = { x: e.offsetX, y: e.offsetY }
-            ctx.beginPath()
-            ctx.moveTo(pt.x, pt.y)
-            currentStroke.current.push(pt)
-        })
-
-        canvas.addEventListener('mousemove', e => {
-            if (draggingVal.current) {
-                const pt = { x: e.offsetX, y: e.offsetY }
-                currentStroke.current.push(pt)
-
-                ctx.lineWidth = 5
-                ctx.lineTo(pt.x, pt.y)
-                ctx.stroke()
-            }
-        })
-
-        canvas.addEventListener('mouseup', e => {
-            draggingVal.current = false
-            strokes.current.push(simplify(currentStroke.current, 2))
-            currentStroke.current = []
-
-            drawForExtraction(ctx)
-            detectImage(ctx, canvas.width)
-            draw(ctx)
-        })
-    }, [])
+        drawForExtraction(ctx)
+        detectImage(ctx, canvas.width)
+        draw(ctx)
+    }
 
     /**
      * Draw the strokes on the canvas for viewing by the user
@@ -128,6 +149,39 @@ const DrawCanvas = () => {
             ctx.stroke()
         }
     }
+
+    /**
+     * Set up the canvas and enable event listeners
+     */
+    useEffect(() => {
+        const canvas = canvasRef.current
+        const ctx = canvas.getContext('2d')
+
+        const size = Math.min(MAX_SIZE, document.body.scrollWidth * 0.6)
+        canvas.style.width = size
+        canvas.style.height = size
+        canvas.width = size
+        canvas.height = size
+
+        canvas.addEventListener('mousedown', handleStrokeStart)
+        canvas.addEventListener('touchstart', handleStrokeStart)
+
+        canvas.addEventListener('mousemove', handleStrokeMove)
+        canvas.addEventListener('touchmove', handleStrokeMove)
+
+        canvas.addEventListener('mouseup', handleStrokeFinish)
+        canvas.addEventListener('mouseleave', handleStrokeFinish)
+        canvas.addEventListener('touchend', handleStrokeFinish)
+        canvas.addEventListener('touchcancel', handleStrokeFinish)
+
+        // listen for CTRL+Z keypress to undo last stroke
+        window.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.key === 'z' && strokes.current.length > 0) {
+                strokes.current.pop()
+                detectDrawing()
+            }
+        })
+    }, [])
 
     /**
      * Reset the canvas if button is pressed
