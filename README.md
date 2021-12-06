@@ -15,7 +15,7 @@ The web application loads a convolutional neural network which was pre-trained o
 To follow the training algorithm, the web application similarly colors a user's sketches when they are sent to the network. Additionally, a few more modifications to the user's sketches are performed to follow how the "Quick, Draw!" dataset was created:
 
 - Align the drawing to the top-left corner, to have minimum values of 0.
-- Uniformly scale the drawing, to have a maximum value equal to the size of the canvas.
+- Uniformly scale the drawing, to have a maximum value of 64 pixels.
 - Simplify all strokes using the [Ramer–Douglas–Peucker](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm) algorithm (implemented with [Simplify.js](https://mourner.github.io/simplify-js/)) with an epsilon value of 2.0.
 
 After performing all of these modifications, the image is sent to the neural network and an array of probabilities is returned and presented to the user.
