@@ -1,7 +1,7 @@
 import * as tf from '@tensorflow/tfjs'
 import { SKETCH_NAMES, createCanvas } from './Utils.js'
 import store from '../redux/store.js'
-import { setProbabilities } from '../redux/actions.js'
+import { addPrediction, setProbabilities } from '../redux/actions.js'
 
 let model
 
@@ -83,4 +83,5 @@ export async function detectImage (ctx, size) {
     result = result.sort((a, b) => b.probability - a.probability)
 
     store.dispatch(setProbabilities(result))
+    store.dispatch(addPrediction(result[0].label))
 }

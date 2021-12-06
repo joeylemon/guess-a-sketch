@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Card from './Card'
@@ -17,6 +18,7 @@ const HiddenScrollCard = styled(Card)`
  * This component represents a Card that can scroll horizontally using mouse or touch drags
  */
 const ScrollableCard = ({ children, style, width }) => {
+    const predictions = useSelector(state => state.predictions)
     const cardRef = useRef(null)
     const mouseDown = useRef(null)
     const scrollAmount = useRef(0)
@@ -30,7 +32,6 @@ const ScrollableCard = ({ children, style, width }) => {
 
         card.addEventListener('mousedown', e => {
             mouseDown.current = e.clientX - e.currentTarget.getBoundingClientRect().left
-            console.log('x down', mouseDown.current)
         })
 
         window.addEventListener('mousemove', e => {
@@ -51,11 +52,15 @@ const ScrollableCard = ({ children, style, width }) => {
             if (mouseDown.current !== null) {
                 mouseDown.current = null
                 scrollAmount.current = lastScroll.current
-                console.log('scrollAmount.current', scrollAmount.current)
                 lastScroll.current = 0
             }
         })
     }, [])
+
+    useEffect(() => {
+        cardRef.current.scroll(0, 0)
+        scrollAmount.current = 0
+    }, [predictions])
 
     return (
         <HiddenScrollCard ref={cardRef} style={{ ...style, overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap' }}>
