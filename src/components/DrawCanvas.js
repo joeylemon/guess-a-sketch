@@ -26,10 +26,10 @@ const Canvas = styled.canvas`
 const getEventLocation = e => {
     const rect = e.target.getBoundingClientRect()
     if (e.targetTouches !== undefined) {
-        return { x: e.targetTouches[0].pageX - rect.left, y: e.targetTouches[0].pageY - rect.top }
+        return { x: e.targetTouches[0].pageX - rect.left, y: e.targetTouches[0].pageY - document.documentElement.scrollTop - rect.top }
     }
 
-    return { x: e.pageX - rect.left, y: e.pageY - rect.top }
+    return { x: e.pageX - rect.left, y: e.pageY - document.documentElement.scrollTop - rect.top }
 }
 
 /**
