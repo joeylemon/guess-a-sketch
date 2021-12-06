@@ -1,5 +1,5 @@
 
-export const SKETCH_NAMES = ['bus', 'car', 'castle', 'coffee_cup', 'compass', 'cookie', 'crab', 'fork', 'golf_club', 'ice_cream', 'key', 'moon', 'octopus', 'paintbrush', 'parachute', 'pizza', 'shark', 'shovel', 'train']
+export const SKETCH_NAMES = ['airplane', 'alarm_clock', 'angel', 'anvil', 'apple', 'axe', 'baseball', 'bed', 'bicycle', 'bird', 'birthday_cake', 'bucket', 'bus', 'calculator', 'camera', 'campfire', 'car', 'castle', 'cat', 'coffee_cup', 'compass', 'cookie', 'crab', 'diamond', 'dog', 'face', 'fish', 'flying_saucer', 'fork', 'frying_pan', 'golf_club', 'hamburger', 'helicopter', 'hot_dog', 'ice_cream', 'key', 'leaf', 'lightning', 'lollipop', 'moon', 'mountain', 'octagon', 'octopus', 'paintbrush', 'pants', 'parachute', 'penis', 'pizza', 'police_car', 'purse', 'rainbow', 'rifle', 'sailboat', 'school_bus', 'shark', 'shoe', 'shovel', 'skyscraper', 'snowman', 'squiggle', 'stop_sign', 'train', 'tree', 'triangle', 'windmill']
 
 /**
  * Get a value from the color gradient between two colors
