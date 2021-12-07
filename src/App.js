@@ -5,7 +5,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid'
 import Probabilities from './components/Probabilities'
 import Controls from './components/Controls'
 import Header from './components/Header'
-import { getModel } from './services/Detect'
+import { loadModel } from './services/Detect'
 
 const Wrapper = styled.div`
     text-align: center;
@@ -20,7 +20,7 @@ const Content = styled.div`
 
 const App = () => {
     useEffect(() => {
-        getModel().then(model => model.summary())
+        loadModel()
     }, [])
 
     return (

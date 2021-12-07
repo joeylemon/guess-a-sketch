@@ -23,6 +23,18 @@ export async function getModel () {
 }
 
 /**
+ * Load the saved network model and warm it up by predicting on an empty image
+ */
+export async function loadModel () {
+    const model = await getModel()
+
+    // create an array of shape [64, 64, 3] filled with zeroes
+    const emptyImage = Array(64).fill().map(() => Array(64).fill().map(() => Array(3).fill(0)))
+
+    model.predict(tf.tensor4d([emptyImage]))
+}
+
+/**
  * Convert the canvas image to an array of RGB pixels
  * @param {CanvasRenderingContext2D} ctx The canvas 2d context
  * @param {Number} scale The size of the given canvas in pixels
