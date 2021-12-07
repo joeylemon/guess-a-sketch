@@ -71,8 +71,8 @@ const DrawCanvas = () => {
         if (draggingVal.current) {
             const ctx = canvasRef.current.getContext('2d')
             const pt = getEventLocation(e)
-            currentStroke.current.push(pt)
 
+            currentStroke.current.push(pt)
             ctx.lineWidth = 5
             ctx.lineTo(pt.x, pt.y)
             ctx.stroke()
@@ -84,10 +84,10 @@ const DrawCanvas = () => {
 
         if (currentStroke.current.length > 1) {
             strokes.current.push(simplify(currentStroke.current, 2))
-            detectDrawing()
+            currentStroke.current = []
         }
 
-        currentStroke.current = []
+        detectDrawing()
     }, [detectDrawing])
 
     /**
@@ -106,20 +106,6 @@ const DrawCanvas = () => {
             ctx.moveTo(pts[0].x, pts[0].y)
 
             for (const pt of pts.slice(1)) {
-                ctx.lineTo(pt.x, pt.y)
-            }
-
-            ctx.stroke()
-        }
-
-        // draw the current stroke if it exists
-        if (currentStroke.current.length > 0) {
-            const current = currentStroke.current
-
-            ctx.strokeStyle = 'black'
-            ctx.moveTo(current[0].x, current[0].y)
-
-            for (const pt of current.slice(1)) {
                 ctx.lineTo(pt.x, pt.y)
             }
 
